@@ -1,0 +1,159 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=32%2C32&#038;ssl=1" sizes="32x32" />
+    <link rel="icon" href="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=192%2C192&#038;ssl=1" sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed" href="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=180%2C180&#038;ssl=1" />
+    <meta name="msapplication-TileImage" content="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=270%2C270&#038;ssl=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Hassan</title>
+
+  </head>
+  <style>
+    #my_camera{
+        width: 320px;
+        height: 240px;
+        border: 1px solid black;
+    }
+  </style>
+
+  <body>
+    <div class="card-deck">   
+        <div class="card">
+            <h1 style="margin-left: 20px;">Engine Number</h1>
+          <div class="card-body">
+            
+            <form action="/" method="POST">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Enter Engine Number</label>
+                  <input type="text" class="form-control" id="enginenumber" placeholder="Enter Engine Number">
+                </div>
+                <button id="" type="submit" class="btn btn-primary" value="Submit">Submit</button>
+            </form>
+
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Engine Number: uy57fre567 </small>
+          </div>
+        </div>
+
+          
+
+        <div class="card">
+          <div class = "video-wrap">
+            <video id = "video" playsinline autoplay width = "590" height = "500"></video>
+          </div>
+          <div class = "controller">
+          <button id = "snap"  class="btn btn-primary">Capture</button>
+        </div>
+      </div>
+        
+        <div class="card">
+            <h1 style="margin-left: 20px;">Captured Image</h1>
+            <canvas id = "canvas" width = "540" height = "420"></canvas>
+            <button type="button" class="btn btn-primary" onclick="saveImage()">save image</button>
+        </div>
+    </div>
+    <br><br>
+    <!-- second row start-->
+    <div class="card-deck">   
+      <div class="card">
+      <img src="{% static 'image/a.png' %}" alt="Not Found">
+      </div>
+
+      <div class="card">
+        <div class="card-deck">
+          <div class="card">
+            <h4 style="margin-left: 20px;">Ok Sample</h4>
+            <img src="{% static 'image/b.png' %}" alt="Not Found">
+          </div>
+        
+          <div class="card">
+            <h4 style="margin-left: 20px;">NG Sample</h4>
+            <img src="{% static 'image/a.png' %}" alt="Not found">
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+          <h3 style="margin-left: 200px; margin-top: 20px;">Inspection Result</h3>
+          <div class="container">
+            <h1><span style="margin-left: 100px;" class="label label-default">No Of Ok</span><span style="margin-left: 150px;" class="label label-default">3</span></h1><br><br>
+            <h1><span style="margin-left: 100px;" class="label label-default">No Of NG</span><span style="margin-left: 150px;" class="label label-default">4</span></h1>
+          </div>
+          
+      </div>
+  </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script>
+      'use strict';
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const snap = document.getElementById('snap');
+      const errorMsgElement = document.getElementById('span#ErrorMsg');
+      const constraints = {
+      audio:false,
+          video:{
+              width:1280,height:720
+          }};
+      async function init()
+          {
+              try
+                  {
+                      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                      handleSuccess(stream);
+                  }
+              catch(e)
+                  {
+                      errorMsgElement.innerHTML=`navigator.getUserMedia.error:${e.toString()}`;
+                  }
+          }
+      function handleSuccess(stream)
+          {
+              window.stream = stream;
+              video.srcObject = stream;
+          }
+      init();
+      var context = canvas.getContext('2d');
+      snap.addEventListener("click",function(){
+      context.drawImage(video, 0, 0, 640, 480);});
+  </script>
+
+  <script type="text/javascript">
+      function saveImage() {
+          var ua = window.navigator.userAgent;
+          if (ua.indexOf("Firefox") > 0) {
+          // save image without file type
+          var canvas = document.getElementById("canvas");
+          document.location.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+          // save image as png
+          var link = document.createElement('a');
+          link.download = "test.png";
+          link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");;
+          link.click();
+        }
+        else {
+          alert("Please use Chrome");
+        }
+      }
+  </script>
+
+  </body>
+</html>
