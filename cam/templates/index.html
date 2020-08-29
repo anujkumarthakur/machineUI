@@ -156,9 +156,9 @@
           var canvas = document.getElementById("canvas");
           document.location.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
-          // save image as png
+          //save image as png
           var link = document.createElement('a');
-          link.download = "test.png";
+          link.download = "{{ engine_no }}";
           link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");;
           link.click();
         }
