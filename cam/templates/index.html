@@ -33,17 +33,24 @@
             <h1 style="margin-left: 20px;">Engine Number</h1>
           <div class="card-body">
             
-            <form action="/" method="POST">
+            <form action = "" method = "POST"> 
+              {% csrf_token %}  
+              <label for="engine_no">Engine NO: </label> 
+              <input id="engine_no" type="text" name="engine_no"> 
+              <input type="submit" value="OK"> 
+            </form> 
+
+            <!-- <form action="" method="POST">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Enter Engine Number</label>
                   <input type="text" class="form-control" id="enginenumber" placeholder="Enter Engine Number">
                 </div>
                 <button id="" type="submit" class="btn btn-primary" value="Submit">Submit</button>
-            </form>
+            </form> -->
 
           </div>
           <div class="card-footer">
-            <small class="text-muted">Engine Number: uy57fre567 </small>
+            <small class="text-muted">Engine Number: {{ engine_no }} </small>
           </div>
         </div>
 
@@ -68,7 +75,10 @@
     <!-- second row start-->
     <div class="card-deck">   
       <div class="card">
-      <img src="{% static 'image/a.png' %}" alt="Not Found">
+        <h1 style="background-color: green; color: honeydew; width: 400px; text-align: center; margin-left: 100px;">1</h1>
+        <h1 style="background-color:red; color: white;width: 400px;text-align: center;margin-left: 100px;">2</h1>
+        <h1 style="background-color: green; color: honeydew; width: 400px;text-align: center;margin-left: 100px;">3</h1>
+        <h1 style="background-color:red; color: white; width: 400px;text-align: center;margin-left: 100px;">4</h1>
       </div>
 
       <div class="card">
@@ -83,6 +93,8 @@
             <img src="{% static 'image/a.png' %}" alt="Not found">
           </div>
         </div>
+        <button>Inspection Complete</button>
+
       </div>
       
       <div class="card">
@@ -91,6 +103,7 @@
             <h1><span style="margin-left: 100px;" class="label label-default">No Of Ok</span><span style="margin-left: 150px;" class="label label-default">3</span></h1><br><br>
             <h1><span style="margin-left: 100px;" class="label label-default">No Of NG</span><span style="margin-left: 150px;" class="label label-default">4</span></h1>
           </div>
+          
           
       </div>
   </div>
@@ -139,7 +152,7 @@
       function saveImage() {
           var ua = window.navigator.userAgent;
           if (ua.indexOf("Firefox") > 0) {
-          // save image without file type
+          // // save image without file type
           var canvas = document.getElementById("canvas");
           document.location.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
